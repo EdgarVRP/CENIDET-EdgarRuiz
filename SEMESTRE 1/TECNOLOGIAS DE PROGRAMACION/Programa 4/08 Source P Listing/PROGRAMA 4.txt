@@ -1,0 +1,83 @@
+/******************************************************************/
+/* Program Assignment:  PSP1.1                                                         */
+/* Name:                Edgar Valentin Ruiz Padilla               */
+/* Date:                13-noviembre-2021gram                     */
+/* Description:         Programa calcular correlacion  oes        */
+/******************************************************************/
+import java.util.Scanner;
+public class Main {
+	public static void main(String[] args) {
+		int Ntemp = 0;
+		String Entrada = "";
+		Boolean VEntrada = false;
+		Scanner entrada = new Scanner(System.in);
+		System.out.println("Programa para calcular la Correlacion de 2 conjuntos de numeros");
+		while (VEntrada != true) {
+			System.out.println("Ingresa la cantidad de numeros por conjunto a ingresar");
+			Entrada = entrada.nextLine();
+			VEntrada = Entrada.matches("[+-]?\\d*(\\.\\d+)?");
+		}
+		Ntemp = Integer.parseInt(Entrada);
+		double[] DBX = new double[Ntemp];
+		VEntrada = false;
+		for (int b = 0; b < Ntemp; b++) {
+			while (VEntrada != true) {
+				int bT = b + 1;
+				System.out.println("Ingrese el numero " + bT + " del conjunto X");
+				Entrada = entrada.nextLine();
+				VEntrada = Entrada.matches("[+-]?\\d*(\\.\\d+)?");
+			}
+			DBX[b] = Double.parseDouble(Entrada);
+			VEntrada = false;
+		}
+		double[] DBY = new double[Ntemp];
+		VEntrada = false;
+		for (int b = 0; b < Ntemp; b++) {
+			while (VEntrada != true) {
+				int bT = b + 1;
+				System.out.println("Ingrese el numero " + bT + " del conjunto Y");
+				Entrada = entrada.nextLine();
+				VEntrada = Entrada.matches("[+-]?\\d*(\\.\\d+)?");
+			}
+			DBY[b] = Double.parseDouble(Entrada);
+			VEntrada = false;
+		}
+		VEntrada = false;
+		Operaciones operacion = new Operaciones();		
+		double Resultado=0;
+		entrada.close();
+		Resultado = operacion.Correlacion(DBX, DBY);
+		System.out.println("La correlacion rx,y es: " + Resultado);
+		System.out.println("La correlacion r^2 es: " + Math.pow(Resultado, 2));
+	}
+
+}
+public class Operaciones {
+	public double Correlacion (double DBX[],double DBY[]) {
+		double TDBX[]=DBX,TDBY[]=DBY;
+		double SUMX=0, SUMY=0, SUMXX=0,SUMYY=0,SUMXY=0;
+		double Corr=0;
+		for(int M=0;M<TDBX.length; M++) {
+			SUMX=TDBX[M]+SUMX;
+		}
+		for(int M=0;M<TDBY.length; M++) {
+			SUMY=TDBY[M]+SUMY;
+		}
+		for(int M=0;M<TDBX.length; M++) {
+			SUMXX=(TDBX[M]*TDBX[M])+SUMXX;
+		}
+		for(int M=0;M<TDBY.length; M++) {
+			SUMXY=(TDBX[M]*TDBY[M])+SUMXY;
+		}
+		for(int M=0;M<TDBY.length; M++) {
+			SUMYY=(TDBY[M]*TDBY[M])+SUMYY;
+		}
+		int n=TDBY.length;
+		double sum1=(n*SUMYY)-(SUMY*SUMY);
+		double sum2=(n*SUMXX)-(SUMX*SUMX);
+		double sum3=Math.sqrt(sum1*sum2);
+		Corr=((n*SUMXY)-(SUMX*SUMY))/sum3;
+		return Corr;
+	}
+}
+
